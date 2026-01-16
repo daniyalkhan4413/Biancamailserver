@@ -18,7 +18,7 @@ function getEasternTime() {
 
 export default async function handler(req, res) {
   // ✅ Set CORS for your production domain
-  const allowedOrigin = "https://www.51statetransportation.com";
+  const allowedOrigin = "https://reisco.vercel.app";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
