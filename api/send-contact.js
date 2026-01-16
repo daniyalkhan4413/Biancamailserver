@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   const mailOptions = {
     from: `"BIANCA" <${process.env.GMAIL_USER}>`,
     to: "matiasriesco88@hotmail.com",
-    replyTo: "matiasriesco88@hotmail.com", // ✅ reply goes directly to customer
+    replyTo: "http://riescologistics.com", // ✅ reply goes directly to customer
     subject: `New Contact Form Submission - ${getEasternTime()}`,
     html: `
       <p><strong>Name:</strong> ${name}</p>

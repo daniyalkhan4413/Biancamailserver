@@ -1,12 +1,10 @@
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 465, // Gmail prefers 465 for secure SSL
-  secure: true, // true for port 465, false for 587
+  service: "gmail",
   auth: {
     user: process.env.GMAIL_USER, // your Gmail address
-    pass: process.env.GMAIL_PASS, // App Password, NOT your normal Gmail password
+    pass: process.env.GMAIL_PASS, // Gmail App Password
   },
 });
 
@@ -19,26 +17,26 @@ function getEasternTime() {
 }
 
 export default async function handler(req, res) {
-  // ✅ Allow all origins (for testing only)
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // ✅ Set CORS for your production domain
+  const allowedOrigin = "http://riescologistics.com";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
   if (req.method === "OPTIONS") {
-    // Handle preflight request
     return res.status(200).end();
   }
 
   if (req.method !== "POST") {
-    res.status(405).json({ message: "Method Not Allowed" });
-    return;
+    return res.status(405).json({ message: "Method Not Allowed" });
   }
 
   const { name, phone, company, email, from, to, howHeard, services } = req.body;
 
   const mailOptions = {
-    from: process.env.GMAIL_USER,
-    to: "matiasriesco88@hotmail.com", 
+    from: `"BIANCA" <${process.env.GMAIL_USER}>`,
+    to: "matiasriesco88@hotmail.com",
+    replyTo: "matiasriesco88@hotmail.com", // ✅ reply goes to customer
     subject: `New Quote Request - ${getEasternTime()}`,
     html: `
       <p><strong>Name:</strong> ${name}</p>
