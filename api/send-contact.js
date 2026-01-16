@@ -38,7 +38,7 @@ export default async function handler(req, res) {
 
   const mailOptions = {
     from: process.env.GMAIL_USER,
-    to: process.env.GMAIL_USER, // send to yourself
+    to: "matiasriesco88@hotmail.com", // send to yourself
     subject: `New Contact Form Submission - ${getEasternTime()}`,
     html: `
       <p><strong>Name:</strong> ${name}</p>
