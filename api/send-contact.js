@@ -18,7 +18,7 @@ function getEasternTime() {
 
 export default async function handler(req, res) {
   // ✅ Set CORS for your production domain
-  const allowedOrigin = "https://reisco.vercel.app";
+  const allowedOrigin = "https://www.riescologistics.com";
   res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   const mailOptions = {
     from: `"BIANCA" <${process.env.GMAIL_USER}>`,
     to: "matiasriesco88@hotmail.com",
-    replyTo: "http://riescologistics.com", // ✅ reply goes directly to customer
+    replyTo: "matiasriesco88@hotmail.com", // ✅ reply goes directly to customer
     subject: `New Contact Form Submission - ${getEasternTime()}`,
     html: `
       <p><strong>Name:</strong> ${name}</p>
