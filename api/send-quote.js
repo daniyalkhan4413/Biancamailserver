@@ -31,7 +31,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const { name, phone, company, email, from, to, howHeard, services } = req.body;
+  const { name, phone, company, email, from, to, howHeard,cargoDimensions, services } = req.body;
 
   const mailOptions = {
     from: `"REISCO LOGISTICS" <${process.env.GMAIL_USER}>`,
@@ -45,6 +45,7 @@ export default async function handler(req, res) {
       <p><strong>Email:</strong> ${email}</p>
       <p><strong>From:</strong> ${from}</p>
       <p><strong>To:</strong> ${to}</p>
+      <p><strong>Cargo Dimensions:</strong> ${cargoDimensions}</p>
       <p><strong>How Heard:</strong> ${howHeard}</p>
       <p><strong>Services:</strong> ${services?.join(", ") || "None"}</p>
       <p><strong>Submitted At (ET):</strong> ${getEasternTime()}</p>
