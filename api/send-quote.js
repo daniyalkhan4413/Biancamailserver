@@ -35,7 +35,7 @@ export default async function handler(req, res) {
 
   const mailOptions = {
     from: `"REISCO LOGISTICS" <${process.env.GMAIL_USER}>`,
-    to: "dk1056896@gmail.com", // send to yourself
+    to: "matiasriesco88@hotmail.com", // send to yourself
     replyTo: email, // ✅ reply goes to customer
     subject: `New Quote Request - ${getEasternTime()}`,
     html: `
