@@ -3,8 +3,8 @@ import nodemailer from "nodemailer";
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_PASS,
+    user: process.env.GMAIL_USER, // Gmail address
+    pass: process.env.GMAIL_PASS, // Gmail App Password
   },
 });
 
@@ -17,8 +17,9 @@ function getEasternTime() {
 }
 
 export default async function handler(req, res) {
-  // ✅ Allow ALL origins
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // ✅ CORS (same as before)
+  const allowedOrigin = "https://reisco.vercel.app";
+  res.setHeader("Access-Control-Allow-Origin", allowedOrigin);
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
@@ -30,47 +31,30 @@ export default async function handler(req, res) {
     return res.status(405).json({ message: "Method Not Allowed" });
   }
 
-  const {
-    name,
-    phone,
-    company,
-    email,
-    from,
-    to,
-    howHeard,
-    services,
-  } = req.body || {};
+  const { name, email, phone, message } = req.body || {};
 
   if (!name || !email) {
     return res.status(400).json({ message: "Invalid request body" });
   }
 
   const mailOptions = {
-    from: `"BIANCA" <${process.env.GMAIL_USER}>`,
-    to: "matiasriesco88@hotmail.com",
-    replyTo: email, // ✅ replies go to the customer
-    subject: `New Quote Request - ${getEasternTime()}`,
+    from: `"REISCO" <${process.env.GMAIL_USER}>`,
+    to: "dk1056896@gmail.com", // send to yourself
+    replyTo: email, // ✅ replies go to customer
+    subject: `New Contact Form Submission - ${getEasternTime()}`,
     html: `
       <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Phone:</strong> ${phone || "-"}</p>
-      <p><strong>Company:</strong> ${company || "-"}</p>
       <p><strong>Email:</strong> ${email}</p>
-      <p><strong>From:</strong> ${from || "-"}</p>
-      <p><strong>To:</strong> ${to || "-"}</p>
-      <p><strong>How Heard:</strong> ${howHeard || "-"}</p>
-      <p><strong>Services:</strong> ${services?.join(", ") || "None"}</p>
-      <p><strong>Submitted At (ET):</strong> ${getEasternTime()}</p>
+      <p><strong>Phone:</strong> ${phone || "-"}</p>
+      <p><strong>Message:</strong> ${message || "-"}</p>
     `,
   };
 
   try {
     await transporter.sendMail(mailOptions);
-    return res.status(200).json({ message: "Quote submitted successfully!" });
+    return res.status(200).json({ message: "Contact email sent successfully!" });
   } catch (error) {
-    console.error("❌ Quote form error:", error?.message || error);
-    return res.status(500).json({
-      message: "Failed to send quote.",
-      error: error?.message,
-    });
+    console.error("❌ Contact form error:", error?.message || error);
+    return res.status(500).json({ message: "Failed to send contact email." });
   }
 }
